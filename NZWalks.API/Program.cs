@@ -12,7 +12,10 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddDbContext<NZWalksDbContext>(options =>options.UseSqlServer(builder.Configuration.GetConnectionString("NZWalksConnectionString")));      //Database Dependency Injection
+builder.Services.AddDbContext<NZWalksDbContext>(options =>
+    options.UseSqlServer(
+        builder.Configuration.GetConnectionString("NZWalksConnectionString"),
+        sqlServerOptions => sqlServerOptions.EnableRetryOnFailure(maxRetryCount: 5, maxRetryDelay: TimeSpan.FromSeconds(10), errorNumbersToAdd: null)));
 builder.Services.AddScoped<IRegionRepository, SQLRegionRepository>();
 builder.Services.AddScoped<IWalkRepository, SQLWalkRepository>();
 builder.Services.AddAutoMapper(cfg => cfg.AddMaps(typeof(AutoMapperProfiles).Assembly));            //Version 16 of AutoMapper is different from version 12 here
