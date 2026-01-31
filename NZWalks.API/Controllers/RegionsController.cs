@@ -19,18 +19,22 @@ namespace NZWalks.API.Controllers
         //private NZWalksDbContext dbContext;
         private IRegionRepository regionRepository;
         private IMapper mapper;
+        private ILogger<RegionsController> logger;
 
-        public RegionsController( IRegionRepository regionRepository, IMapper mapper)
+        public RegionsController( IRegionRepository regionRepository, IMapper mapper, ILogger<RegionsController> logger)
         {
             //this.dbContext = dbContext;
             this.regionRepository = regionRepository;
             this.mapper = mapper;
+            this.logger = logger;
         }
         
         [HttpGet]
-        [Authorize(Roles = "Reader")]
+        //[Authorize(Roles = "Reader")]
         public async Task<IActionResult> GetAll()
         {
+            logger.LogInformation("DEEPZ Log: Getting all Regions!");
+            
             var regions = await regionRepository.GetAllAsync();
             var regionsDto = mapper.Map<List<RegionDto>>(regions);
             return Ok(regionsDto);

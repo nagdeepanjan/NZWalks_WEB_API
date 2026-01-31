@@ -7,10 +7,17 @@ using Microsoft.OpenApi.Models;
 using NZWalks.API.Data;
 using NZWalks.API.Mappings;
 using NZWalks.API.Repositories;
+using Serilog;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+#region Logging
+var logger = new LoggerConfiguration().WriteTo.Console().MinimumLevel.Information().CreateLogger();
+builder.Logging.ClearProviders();
+builder.Logging.AddSerilog(logger);
+#endregion
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
