@@ -30,7 +30,7 @@ jobs:
       - name: Build and push
         uses: docker/build-push-action@v6
         with:
-          context: ./NZWalks.API
+          context: .
           file: ./NZWalks.API/Dockerfile
           push: true
           tags: |
